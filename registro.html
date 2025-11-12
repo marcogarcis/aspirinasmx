@@ -8,99 +8,84 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
-<body class="login-page">
+<body class="login-page" onload="navigateToHome()">
     <div class="login-container">
-        <div class="login-card">
+        <div class="login-card registration-card">
             <h1 class="logo-text">Aspirante Soy MX</h1>
             <h2>Crear Cuenta</h2>
-            <form id="registro-form" class="login-form">
-                
+            <form id="registro-form" class="registration-form">
                 <div class="form-group">
-                    <label for="nombre" class="form-label">Nombre(s) y Apellido(s) *</label>
-                    <input type="text" id="nombre" name="nombre" placeholder="Ej. Juan Pérez García" required>
+                    <label for="nombre" class="form-label">Nombre Completo</label>
+                    <input type="text" id="nombre" name="nombre" required>
                 </div>
-                
                 <div class="form-group">
-                    <label for="reg_correo" class="form-label">Correo Electrónico *</label>
-                    <input type="email" id="reg_correo" name="reg_correo" placeholder="ejemplo@correo.com" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="reg_contrasena" class="form-label">Contraseña *</label>
-                    <div class="password-container">
-                        <input type="password" id="reg_contrasena" name="reg_contrasena" required minlength="6">
-                        <span class="material-icons toggle-password" onclick="togglePasswordVisibility('reg_contrasena', this)">visibility_off</span>
-                    </div>
-                </div>
-
-                <div class="form-group-institution">
-                    <label class="form-label-checkbox">Género *</label>
-                    <div class="checkbox-group">
-                        <div class="checkbox-item">
-                            <input type="radio" id="genero_h" name="genero" value="H" required>
-                            <label for="genero_h">Hombre</label>
-                        </div>
-                        <div class="checkbox-item">
-                            <input type="radio" id="genero_m" name="genero" value="M" required>
-                            <label for="genero_m">Mujer</label>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="residencia" class="form-label">Estado de Residencia *</label>
+                    <label for="residencia" class="form-label">Estado de Residencia</label>
                     <select id="residencia" name="residencia" required>
-                        <option value="" disabled selected>Selecciona tu Estado</option>
+                        <option value="">Selecciona tu Estado</option>
                         <option value="CDMX">Ciudad de México</option>
                         <option value="Jalisco">Jalisco</option>
-                        <option value="Nuevo Leon">Nuevo León</option>
-                        <option value="Otro">Otro Estado de la República</option>
+                        <option value="NL">Nuevo León</option>
+                        <option value="EdoMex">Estado de México</option>
+                        <option value="Otro">Otro estado...</option>
                     </select>
                 </div>
                 
-                <div class="form-group-institution">
-                    <label class="form-label-checkbox">Institución(es) de Interés *</label>
+                <div class="form-group">
+                    <label class="form-label">Género</label>
+                    <div class="radio-group">
+                        <input type="radio" id="genero_h" name="genero" value="H" required>
+                        <label for="genero_h">Hombre</label>
+                        <input type="radio" id="genero_m" name="genero" value="M">
+                        <label for="genero_m">Mujer</label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Institución de Interés (Selecciona al menos una)</label>
                     <div class="checkbox-group">
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="inst_sedena" name="institucion" value="SEDENA" onchange="toggleCarreras()">
-                            <label for="inst_sedena">SEDENA (Colegio Militar, HCM, etc.)</label>
-                        </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="inst_semar" name="institucion" value="SEMAR" onchange="toggleCarreras()">
-                            <label for="inst_semar">SEMAR (Heroica Escuela Naval, etc.)</label>
-                        </div>
+                        <input type="checkbox" id="inst_sedena" name="institucion" value="SEDENA" onclick="toggleCarreras()">
+                        <label for="inst_sedena">SEDENA</label>
+                        <input type="checkbox" id="inst_semar" name="institucion" value="SEMAR" onclick="toggleCarreras()">
+                        <label for="inst_semar">SEMAR</label>
                     </div>
                 </div>
 
                 <div id="carreras-container" style="display: none;">
-                    <label class="form-label">Carrera de Interés (Selecciona la más importante) *</label>
-                    
-                    <div id="carreras-sedena" class="form-group" style="display: none;">
+                    <div id="carreras-sedena" class="form-group hidden-select">
+                        <label for="carrera_sedena" class="form-label">Carrera de interés (SEDENA)</label>
                         <select id="carrera_sedena" name="carrera_sedena">
-                            <option value="" disabled selected>Selecciona una Carrera SEDENA</option>
-                            <option value="Lic. Medicina Cirujano Militar (HCM)">Lic. Medicina Cirujano Militar (HCM)</option>
-                            <option value="Lic. Odontología (HCM)">Lic. Odontología (HCM)</option>
-                            <option value="Ingeniero Militar">Ingeniero Militar</option>
-                            <option value="Lic. en Administración Militar">Lic. en Administración Militar</option>
+                            <option value="">Selecciona una carrera</option>
+                            <option value="Heroico Colegio Militar (HCM)">Heroico Colegio Militar (HCM)</option>
+                            <option value="Escuela Militar de Medicina">Escuela Militar de Medicina</option>
+                            <option value="Escuela Militar de Odontología">Escuela Militar de Odontología</option>
                         </select>
                     </div>
-
-                    <div id="carreras-semar" class="form-group" style="display: none;">
+                    <div id="carreras-semar" class="form-group hidden-select">
+                        <label for="carrera_semar" class="form-label">Carrera de interés (SEMAR)</label>
                         <select id="carrera_semar" name="carrera_semar">
-                            <option value="" disabled selected>Selecciona una Carrera SEMAR</option>
-                            <option value="Ingeniería en Sistemas Navales">Ingeniería en Sistemas Navales</option>
-                            <option value="Lic. Médico Cirujano Naval">Lic. Médico Cirujano Naval</option>
-                            <option value="Lic. en Enfermería Naval">Lic. en Enfermería Naval</option>
-                            <option value="Ingeniería en Electrónica Naval">Ingeniería en Electrónica Naval</option>
+                            <option value="">Selecciona una carrera</option>
+                            <option value="Heroica Escuela Naval Militar (HENM)">Heroica Escuela Naval Militar (HENM)</option>
+                            <option value="Escuela Naval de Ingeniería">Escuela Naval de Ingeniería</option>
+                            <option value="Escuela Naval de Enfermería">Escuela Naval de Enfermería</option>
                         </select>
                     </div>
                 </div>
 
-                <button type="submit" class="btn-primary" style="margin-top: 20px;">Registrarme</button>
+                <div class="form-group">
+                    <label for="reg_correo" class="form-label">Correo Electrónico</label>
+                    <input type="email" id="reg_correo" name="correo" placeholder="ejemplo@correo.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="reg_contrasena" class="form-label">Contraseña (Mín. 6 caracteres)</label>
+                    <div class="password-container">
+                        <input type="password" id="reg_contrasena" name="contrasena" minlength="6" required>
+                        <span class="material-icons toggle-password" onclick="togglePasswordVisibility('reg_contrasena', this)">visibility_off</span>
+                    </div>
+                </div>
+                <button type="submit" class="btn-primary">Registrarme</button>
             </form>
-            
             <p class="switch-link">
-                ¿Ya tienes una cuenta? <a href="index.html">Inicia Sesión aquí.</a>
+                ¿Ya tienes cuenta? <a href="index.html">Inicia Sesión aquí.</a>
             </p>
         </div>
     </div>
