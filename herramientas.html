@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Herramientas | Aspirante Soy MX</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body class="dashboard-page"> 
+    <div class="dashboard-wrapper">
+        
+        <div class="dashboard-container">
+            
+            <h1 class="section-title" style="font-size: 1.8em; margin-bottom: 30px;">Herramientas de Preparación</h1>
+            
+            <div class="tool-section card">
+                <h2 class="tool-title">Calculadora de IMC (Índice de Masa Corporal)</h2>
+                <p class="tool-description">Verifica si tu peso es el adecuado para los requisitos de ingreso militar (IMC recomendado: 18.5 a 27.9).</p>
+
+                <form id="imc-form" class="imc-form">
+                    <div class="input-group">
+                        <label for="peso">Peso (kg)</label>
+                        <input type="number" id="peso" name="peso" step="0.1" min="1" required placeholder="Ej: 75.5">
+                    </div>
+                    <div class="input-group">
+                        <label for="estatura">Estatura (metros)</label>
+                        <input type="number" id="estatura" name="estatura" step="0.01" min="1.00" max="2.50" required placeholder="Ej: 1.70">
+                    </div>
+                    
+                    <button type="submit" class="btn-primary">Calcular IMC</button>
+                </form>
+
+                <div id="imc-resultado" class="imc-result-area">
+                    </div>
+            </div>
+
+            <div class="tool-section card">
+                <h2 class="tool-title">Calculadora de Pista y Resistencia</h2>
+                <p class="tool-description">Evalúa si cumples con el tiempo mínimo para la prueba de 2,500 metros (SEDENA/SEMAR). El tiempo límite es aproximadamente 12:30 a 13:00 minutos.</p>
+
+                <form id="pista-form" class="imc-form">
+                    <div class="input-group">
+                        <label for="distancia">Distancia recorrida (metros)</label>
+                        <input type="number" id="distancia" name="distancia" step="1" min="100" required value="2500" placeholder="Ej: 2500">
+                    </div>
+                    <div class="input-group">
+                        <label for="minutos">Tiempo total (Minutos)</label>
+                        <input type="number" id="minutos" name="minutos" step="1" min="0" max="60" required placeholder="Ej: 12">
+                    </div>
+                    <div class="input-group">
+                        <label for="segundos">Tiempo total (Segundos)</label>
+                        <input type="number" id="segundos" name="segundos" step="1" min="0" max="59" required placeholder="Ej: 30">
+                    </div>
+                    
+                    <button type="submit" class="btn-primary">Evaluar Rendimiento</button>
+                </form>
+
+                <div id="pista-resultado" class="imc-result-area">
+                    </div>
+            </div>
+
+
+        </div>
+    </div>
+    
+    <nav class="nav-bar">
+        <a href="dashboard.html" class="nav-link active">
+            <span class="material-icons">home</span>
+            Inicio
+        </a>
+        <a href="profile.html" class="nav-link">
+            <span class="material-icons">person</span>
+            Perfil
+        </a>
+    </nav>
+
+    <script src="script.js"></script>
+</body>
+</html>
