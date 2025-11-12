@@ -6,37 +6,51 @@
     <title>Mi Perfil | Aspirante Soy MX</title>
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
-<body class="dashboard-page"> 
-    <div class="dashboard-wrapper">
-        
-        <div class="dashboard-container">
-            
-            <h1 class="section-title" style="font-size: 1.8em; margin-bottom: 30px;">Mi Perfil</h1>
-            
-            <!-- CLAVE: Contenedor donde JS inyectará los datos -->
-            <div id="profile-data">
-                <p style="text-align: center; color: #666;">Cargando datos del usuario...</p>
-            </div>
-
-            <!-- Botón de Cerrar Sesión (ÚNICO lugar) -->
-            <button id="logout-btn" class="btn-primary logout-btn">Cerrar Sesión</button>
-
-        </div>
-    </div>
-    
-    <!-- CLAVE: Menú de Navegación Inferior -->
-    <nav class="nav-bar">
-        <a href="dashboard.html" class="nav-link">
-            <span class="material-icons">home</span>
-            Inicio
-        </a>
-        <a href="profile.html" class="nav-link active">
-            <span class="material-icons">person</span>
-            Perfil
-        </a>
+<body onload="navigateToHome()">
+    <nav class="sidebar">
+        <h1 class="logo-text">Aspirante Soy MX</h1>
+        <ul class="nav-links">
+            <li><a href="dashboard.html"><i class="material-icons">dashboard</i> Dashboard</a></li>
+            <li><a href="simulador.html"><i class="material-icons">quiz</i> Simulador EXANI-II</a></li>
+            <li><a href="convocatorias.html"><i class="material-icons">event</i> Convocatorias</a></li>
+            <li><a href="herramientas.html"><i class="material-icons">build</i> Herramientas</a></li>
+            <li><a href="profile.html" class="active"><i class="material-icons">person</i> Mi Perfil</a></li>
+        </ul>
+        <button id="logout-btn-nav" class="btn-logout"><i class="material-icons">exit_to_app</i> Cerrar Sesión</button>
     </nav>
 
+    <div class="content">
+        <header class="header">
+            <h2>Datos de Usuario y Configuración</h2>
+        </header>
+
+        <main class="profile-content">
+            <section class="card profile-card">
+                <div id="profile-data">
+                    <p>Cargando datos del usuario...</p>
+                </div>
+            </section>
+            
+            <section class="card actions-card">
+                <h3>Acciones de Cuenta</h3>
+                <div class="action-buttons">
+                    <button id="logout-btn" class="btn-danger-block"><i class="material-icons">logout</i> Cerrar Sesión</button>
+                    <p class="data-hint">Cerrar la sesión actual eliminará la clave de tu navegador, pero tus datos y historial se conservarán en el registro local.</p>
+                </div>
+            </section>
+        </main>
+    </div>
     <script src="script.js"></script>
+    <script>
+        // Agrega el evento de cerrar sesión al botón de la barra lateral
+        document.addEventListener('DOMContentLoaded', () => {
+            const logoutNavBtn = document.getElementById('logout-btn-nav');
+            if (logoutNavBtn && window.logout) {
+                logoutNavBtn.addEventListener('click', window.logout);
+            }
+        });
+    </script>
 </body>
 </html>
