@@ -8,93 +8,94 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
-<body class="dashboard-page"> 
-    <div class="simulator-wrapper">
-        
-        <!-- PANTALLA 1: BIENVENIDA (DISCLAIMER) -->
-        <div id="welcome-screen" class="simulator-screen card">
-            <h1 class="welcome-title">Bienvenido al Mini-Simulador</h1>
-            <div class="disclaimer-box">
-                <p><strong>🚨 IMPORTANTE: Aviso de No Afiliación</strong></p>
-                <p>Este simulador fue desarrollado por Aspírante Soy MX de manera **independiente** con fines educativos y de apoyo. No estamos afiliados, respaldados, patrocinados ni autorizados por la **Secretaría de la Defensa Nacional (SEDENA)**, la **Secretaría de Marina (SEMAR)**, la UDEFA, la Universidad Naval ni ninguna otra institución gubernamental.</p>
-                <p>Las preguntas, los módulos y los tiempos son **simulados** y pueden no coincidir con el examen oficial. Úsalo como una herramienta de práctica.</p>
-            </div>
-            <button onclick="startSimulator()" class="btn-primary">Aceptar y Continuar</button>
-            <a href="dashboard.html" class="btn-secondary" style="margin-top: 15px;">Volver a Inicio</a>
-        </div>
-
-
-        <!-- PANTALLA 2: INSTRUCCIONES -->
-        <div id="instructions-screen" class="simulator-screen card">
-            <h1 class="instructions-title">Instrucciones del Examen</h1>
-            <ul class="instructions-list">
-                <li><i class="material-icons">timer</i> **Tiempo Total:** Contarás con **${SIMULATOR_DURATION_MINUTES} minutos** para responder las ${MAX_QUESTIONS} preguntas. El tiempo es estricto y el examen finalizará automáticamente al concluir.</li>
-                <li><i class="material-icons">chevron_right</i> **Navegación por Módulos:** Puedes navegar libremente entre los módulos de **Español, Álgebra, Historia, Geografía e Inglés** usando las pestañas superiores.</li>
-                <li><i class="material-icons">edit</i> **Cambio de Respuestas:** Puedes modificar cualquier respuesta antes de presionar el botón **"Terminar Examen"**.</li>
-                <li><i class="material-icons">bar_chart</i> **Resultados:** Al finalizar, verás un resumen de aciertos, porcentaje y estadísticas, pero **no podrás corregir el examen**.</li>
-                <li><i class="material-icons">lock</i> **Advertencia:** Una vez finalizado el examen (por tiempo o por botón), la sesión se cerrará y los resultados se guardarán.</li>
-            </ul>
-            <button onclick="startExam()" class="btn-primary">Comenzar Simulador</button>
-            <a href="dashboard.html" class="btn-secondary" style="margin-top: 15px;">Cancelar</a>
-        </div>
-
-
-        <!-- PANTALLA 3: INTERFAZ DEL EXAMEN -->
-        <div id="simulator-interface" class="simulator-screen">
-            
-            <!-- BARRA SUPERIOR DE TIEMPO Y MÓDULO -->
-            <div class="fixed-header-sim">
-                <div class="module-info">
-                    <span id="timer-display" class="timer-display">00:00</span>
-                </div>
-                <div id="module-navigation" class="module-navigation">
-                    <!-- Tabs de Módulos (Llenados por JS) -->
-                </div>
-            </div>
-
-            <!-- CONTENIDO DE LA PREGUNTA -->
-            <div class="simulator-content-area">
-                <div id="question-content" class="question-container card">
-                    <!-- Pregunta y Opciones (Llenados por JS) -->
-                </div>
-
-                <!-- Botones de Navegación -->
-                <div id="question-buttons" class="question-buttons">
-                    <!-- Anterior / Terminar / Siguiente (Llenados por JS) -->
-                </div>
-            </div>
-
-            <!-- NAVEGACIÓN INFERIOR DE PREGUNTAS -->
-            <div class="fixed-footer-sim">
-                <p class="status-label">Progreso del Módulo:</p>
-                <div id="question-status" class="question-status">
-                    <!-- Botones de estado (Llenados por JS) -->
-                </div>
-            </div>
-        </div>
-
-
-        <!-- PANTALLA 4: RESULTADOS -->
-        <div id="results-screen" class="simulator-screen card">
-            <div id="results-content">
-                <!-- Contenido de Resultados (Llenado por JS) -->
-            </div>
-        </div>
-
-    </div>
-    
-    <!-- Menú de Navegación (Se ocultará con CSS en esta página) -->
-    <nav class="nav-bar">
-        <a href="dashboard.html" class="nav-link active">
-            <span class="material-icons">home</span>
-            Inicio
-        </a>
-        <a href="profile.html" class="nav-link">
-            <span class="material-icons">person</span>
-            Perfil
-        </a>
+<body onload="navigateToHome()">
+    <nav class="sidebar">
+        <h1 class="logo-text">Aspirante Soy MX</h1>
+        <ul class="nav-links">
+            <li><a href="dashboard.html"><i class="material-icons">dashboard</i> Dashboard</a></li>
+            <li><a href="simulador.html" class="active"><i class="material-icons">quiz</i> Simulador EXANI-II</a></li>
+            <li><a href="convocatorias.html"><i class="material-icons">event</i> Convocatorias</a></li>
+            <li><a href="herramientas.html"><i class="material-icons">build</i> Herramientas</a></li>
+            <li><a href="profile.html"><i class="material-icons">person</i> Mi Perfil</a></li>
+        </ul>
+        <button id="logout-btn-nav" class="btn-logout"><i class="material-icons">exit_to_app</i> Cerrar Sesión</button>
     </nav>
 
-    <script src="script.js"></script> 
+    <div class="content">
+        <header class="header simulator-header">
+            <h2>Simulador de Examen Cultural (EXANI-II)</h2>
+            <div id="timer-display" class="timer-display">25:00</div>
+        </header>
+
+        <main class="simulator-main">
+            
+            <section id="welcome-screen" class="card simulator-screen welcome-screen">
+                <h3>Prepárate para la Prueba</h3>
+                <p>Este simulador replica la estructura y dificultad del examen cultural EXANI-II (componente clave para las fuerzas armadas).</p>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <i class="material-icons">schedule</i>
+                        <p><strong>Tiempo Límite:</strong> 25 Minutos</p>
+                    </div>
+                    <div class="info-item">
+                        <i class="material-icons">assignment</i>
+                        <p><strong>Total de Preguntas:</strong> 28</p>
+                    </div>
+                    <div class="info-item">
+                        <i class="material-icons">category</i>
+                        <p><strong>Módulos:</strong> Español, Álgebra, Historia, Geografía e Inglés.</p>
+                    </div>
+                </div>
+                <button onclick="startSimulator()" class="btn-primary btn-lg">Comenzar</button>
+            </section>
+
+            <section id="instructions-screen" class="card simulator-screen instructions-screen" style="display: none;">
+                <h3>Instrucciones del Examen</h3>
+                <ul class="instructions-list">
+                    <li><i class="material-icons">check_circle</i> Tienes <strong>25 minutos</strong> para responder las 28 preguntas.</li>
+                    <li><i class="material-icons">check_circle</i> Una vez seleccionado, tu respuesta queda registrada automáticamente.</li>
+                    <li><i class="material-icons">check_circle</i> Puedes avanzar y retroceder libremente entre preguntas.</li>
+                    <li><i class="material-icons">check_circle</i> El examen se enviará automáticamente si el tiempo se agota.</li>
+                </ul>
+                <button onclick="startExam()" class="btn-primary btn-lg">Aceptar y Empezar</button>
+            </section>
+            
+            <section id="simulator-interface" class="simulator-interface" style="display: none;">
+                
+                <div class="question-panel">
+                    <div id="module-navigation" class="module-navigation">
+                        </div>
+
+                    <div id="question-content" class="question-content">
+                        </div>
+
+                    <div id="question-buttons" class="question-buttons">
+                        </div>
+                </div>
+
+                <div class="navigation-panel card">
+                    <h4>Estado de Preguntas</h4>
+                    <div id="question-status" class="question-status">
+                        </div>
+                </div>
+            </section>
+
+            <section id="results-screen" class="card simulator-screen results-screen" style="display: none;">
+                <div id="results-content">
+                    </div>
+            </section>
+
+        </main>
+    </div>
+    <script src="script.js"></script>
+    <script>
+        // Agrega el evento de cerrar sesión al botón de la barra lateral
+        document.addEventListener('DOMContentLoaded', () => {
+            const logoutNavBtn = document.getElementById('logout-btn-nav');
+            if (logoutNavBtn && window.logout) {
+                logoutNavBtn.addEventListener('click', window.logout);
+            }
+        });
+    </script>
 </body>
 </html>
