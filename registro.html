@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aspirante Soy MX - Registro</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+    <div class="registro-container">
+        <header class="app-header">
+            <h1 onclick="navigateToHome()">Aspirante Soy MX</h1>
+        </header>
+
+        <h2>Crear Cuenta</h2>
+
+        <form id="registro-form">
+            <div class="input-group">
+                <label for="nombre">Nombre Completo</label>
+                <input type="text" id="nombre" name="nombre" required>
+            </div>
+
+            <div class="input-group">
+                <label for="reg_correo">Correo Electrónico</label>
+                <input type="email" id="reg_correo" name="reg_correo" required>
+            </div>
+
+            <div class="input-group password-group">
+                <label for="reg_contrasena">Contraseña</label>
+                <input type="password" id="reg_contrasena" name="reg_contrasena" required>
+                <span class="material-icons password-toggle" onclick="togglePasswordVisibility('reg_contrasena', this)" aria-label="Mostrar contraseña">
+                    visibility_off
+                </span>
+            </div>
+
+            <div class="input-group">
+                <label for="residencia">¿Dónde resides actualmente? (Estado)</label>
+                <select id="residencia" name="residencia" required>
+                    <option value="" disabled selected>Selecciona un Estado</option>
+                    <option value="AGU">Aguascalientes</option>
+                    <option value="BC">Baja California</option>
+                    <option value="BCS">Baja California Sur</option>
+                    <option value="CAM">Campeche</option>
+                    <option value="CHP">Chiapas</option>
+                    <option value="CHI">Chihuahua</option>
+                    <option value="COA">Coahuila</option>
+                    <option value="COL">Colima</option>
+                    <option value="CDMX">Ciudad de México</option>
+                    <option value="DUR">Durango</option>
+                    <option value="GTO">Guanajuato</option>
+                    <option value="GRO">Guerrero</option>
+                    <option value="HGO">Hidalgo</option>
+                    <option value="JAL">Jalisco</option>
+                    <option value="MEX">México</option>
+                    <option value="MIC">Michoacán</option>
+                    <option value="MOR">Morelos</option>
+                    <option value="NAY">Nayarit</option>
+                    <option value="NL">Nuevo León</option>
+                    <option value="OAX">Oaxaca</option>
+                    <option value="PUE">Puebla</option>
+                    <option value="QRO">Querétaro</option>
+                    <option value="QROO">Quintana Roo</option>
+                    <option value="SLP">San Luis Potosí</option>
+                    <option value="SIN">Sinaloa</option>
+                    <option value="SON">Sonora</option>
+                    <option value="TAB">Tabasco</option>
+                    <option value="TAM">Tamaulipas</option>
+                    <option value="TLAX">Tlaxcala</option>
+                    <option value="VER">Veracruz</option>
+                    <option value="YUC">Yucatán</option>
+                    <option value="ZAC">Zacatecas</option>
+                </select>
+            </div>
+
+            <div class="input-group radio-group">
+                <label>Género (*Obligatorio)</label>
+                <div>
+                    <input type="radio" id="genero_h" name="genero" value="H" required>
+                    <label for="genero_h">Hombre</label>
+                </div>
+                <div>
+                    <input type="radio" id="genero_m" name="genero" value="M">
+                    <label for="genero_m">Mujer</label>
+                </div>
+            </div>
+
+            <div class="input-group checkbox-group">
+                <label>Institución(es) a la(s) que aplica</label>
+                <div>
+                    <input type="checkbox" id="inst_sedena" name="institucion" value="SEDENA" onchange="toggleCarreras()">
+                    <label for="inst_sedena">SEDENA (Ejército y F.A.M.)</label>
+                </div>
+                <div>
+                    <input type="checkbox" id="inst_semar" name="institucion" value="SEMAR" onchange="toggleCarreras()">
+                    <label for="inst_semar">SEMAR (Armada de México)</label>
+                </div>
+            </div>
+            
+            <div id="carreras-container" style="display:none;">
+                <label>Carrera(s) de Interés</label>
+                
+                <div id="carreras-sedena" class="input-group" style="display:none;">
+                    <label for="carrera_sedena">Escuela/Carrera SEDENA:</label>
+                    <select id="carrera_sedena" name="carrera_sedena">
+                        <option value="" selected disabled>Selecciona una opción de SEDENA</option>
+                        
+                        <optgroup label="Heroico Colegio Militar">
+                            <option value="HCM-AdmMil">Licenciatura en Administración Militar</option>
+                            <option value="HCM-SegPub">Licenciatura en Seguridad Pública</option>
+                        </optgroup>
+                        
+                        <optgroup label="Escuela Militar de Ingenieros">
+                            <option value="EMI-Const">Ingeniero Constructor Militar</option>
+                            <option value="EMI-ComElec">Ingeniero Militar en Comunicaciones y Electrónica</option>
+                            <option value="EMI-CompInfo">Ingeniero Militar en Computación e Informática</option>
+                            <option value="EMI-IndMec">Ingeniero Industrial Militar (Mecánica)</option>
+                            <option value="EMI-IndElec">Ingeniero Industrial Militar (Eléctrica)</option>
+                            <option value="EMI-IndQuim">Ingeniero Industrial Militar (Química)</option>
+                        </optgroup>
+                        
+                        <optgroup label="Salud (Médica, Odontológica, Enfermería)">
+                            <option value="EMM-MedCir">Médico Cirujano Militar (Esc. Mil. Medicina)</option>
+                            <option value="EMO-CirDent">Cirujano Dentista Militar (Esc. Mil. Odontología)</option>
+                            <option value="EME-Enfer">Licenciatura en Enfermería Militar (Esc. Mil. Enfermería)</option>
+                            <option value="EMOS-SalPub">Lic. en Salud Pública y Urgencias Médicas (Of. Sanidad)</option>
+                        </optgroup>
+                        
+                        <optgroup label="Fuerza Aérea (Colegio del Aire)">
+                            <option value="EMA-PilotoAdm">Lic. Adm. Militar Piloto Aviador (Esc. Mil. Aviación)</option>
+                            <option value="EMA-PilotoSeg">Lic. Seg. Pública Piloto Aviador (Esc. Mil. Aviación)</option>
+                            <option value="EMEF-ContVuelo">Lic. Aeronáutica Militar (Controlador de Vuelo)</option>
+                            <option value="EMEF-MetMil">Lic. en Meteorología Militar</option>
+                        </optgroup>
+                        
+                        <optgroup label="Otras">
+                            <option value="EMT-TecInfoCom">Lic. en Tecnologías de la Información y Com. (Esc. Mil. Transm.)</option>
+                            <option value="EMMG-LogMatGuerra">Lic. en Logística del Material de Guerra</option>
+                        </optgroup>
+                    </select>
+                </div>
+
+                <div id="carreras-semar" class="input-group" style="display:none;">
+                    <label for="carrera_semar">Escuela/Carrera SEMAR:</label>
+                    <select id="carrera_semar" name="carrera_semar">
+                        <option value="" selected disabled>Selecciona una opción de SEMAR</option>
+                        
+                        <optgroup label="Heroica Escuela Naval Militar (Licenciaturas)">
+                            <option value="HENM-SisNavales">Ingeniería en Sistemas Navales (Cuerpo General)</option>
+                            <option value="HENM-Hidrografia">Ingeniería en Hidrografía (Infantería de Marina)</option>
+                            <option value="HENM-AeroPiloto">Ingeniería Aeronaval (Piloto Aeronaval)</option>
+                            <option value="HENM-ElecCom">Ingeniería en Electrónica y Comunicaciones Navales</option>
+                            <option value="HENM-MecNaval">Ingeniería en Mecánica Naval</option>
+                            <option value="HENM-Logistica">Ingeniería en Logística</option>
+                        </optgroup>
+                        
+                        <optgroup label="Salud Naval">
+                            <option value="EMN-MedCir">Médico Cirujano Naval (Esc. Médico Naval)</option>
+                            <option value="EEN-Enfer">Licenciatura en Enfermería Naval (Esc. Enfermería Naval)</option>
+                        </optgroup>
+                        
+                        <optgroup label="Técnico Profesional (SIN Bachillerato)">
+                            <option value="TP-Intendencia">Técnico Profesional en Administración e Intendencia Naval</option>
+                            <option value="TP-Informatica">Técnico Profesional en Informática Naval</option>
+                            <option value="TP-ElectRec">Técnico Profesional en Electricidad y Refrigeración Naval</option>
+                        </optgroup>
+                    </select>
+                </div>
+            </div>
+
+
+            <button type="submit" class="btn-primary">Registrarme</button>
+        </form>
+
+        <p class="registro-link">
+            ¿Ya tienes cuenta? <a href="index.html">Inicia Sesión</a>
+        </p>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
