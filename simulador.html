@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador | Aspirante Soy MX</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body class="dashboard-page"> 
+    <div class="simulator-wrapper">
+        
+        <!-- PANTALLA 1: BIENVENIDA (DISCLAIMER) -->
+        <div id="welcome-screen" class="simulator-screen card">
+            <h1 class="welcome-title">Bienvenido al Mini-Simulador</h1>
+            <div class="disclaimer-box">
+                <p><strong>🚨 IMPORTANTE: Aviso de No Afiliación</strong></p>
+                <p>Este simulador fue desarrollado por Aspírante Soy MX de manera **independiente** con fines educativos y de apoyo. No estamos afiliados, respaldados, patrocinados ni autorizados por la **Secretaría de la Defensa Nacional (SEDENA)**, la **Secretaría de Marina (SEMAR)**, la UDEFA, la Universidad Naval ni ninguna otra institución gubernamental.</p>
+                <p>Las preguntas, los módulos y los tiempos son **simulados** y pueden no coincidir con el examen oficial. Úsalo como una herramienta de práctica.</p>
+            </div>
+            <button onclick="startSimulator()" class="btn-primary">Aceptar y Continuar</button>
+            <a href="dashboard.html" class="btn-secondary" style="margin-top: 15px;">Volver a Inicio</a>
+        </div>
+
+
+        <!-- PANTALLA 2: INSTRUCCIONES -->
+        <div id="instructions-screen" class="simulator-screen card">
+            <h1 class="instructions-title">Instrucciones del Examen</h1>
+            <ul class="instructions-list">
+                <li><i class="material-icons">timer</i> **Tiempo Total:** Contarás con **${SIMULATOR_DURATION_MINUTES} minutos** para responder las ${MAX_QUESTIONS} preguntas. El tiempo es estricto y el examen finalizará automáticamente al concluir.</li>
+                <li><i class="material-icons">chevron_right</i> **Navegación por Módulos:** Puedes navegar libremente entre los módulos de **Español, Álgebra, Historia, Geografía e Inglés** usando las pestañas superiores.</li>
+                <li><i class="material-icons">edit</i> **Cambio de Respuestas:** Puedes modificar cualquier respuesta antes de presionar el botón **"Terminar Examen"**.</li>
+                <li><i class="material-icons">bar_chart</i> **Resultados:** Al finalizar, verás un resumen de aciertos, porcentaje y estadísticas, pero **no podrás corregir el examen**.</li>
+                <li><i class="material-icons">lock</i> **Advertencia:** Una vez finalizado el examen (por tiempo o por botón), la sesión se cerrará y los resultados se guardarán.</li>
+            </ul>
+            <button onclick="startExam()" class="btn-primary">Comenzar Simulador</button>
+            <a href="dashboard.html" class="btn-secondary" style="margin-top: 15px;">Cancelar</a>
+        </div>
+
+
+        <!-- PANTALLA 3: INTERFAZ DEL EXAMEN -->
+        <div id="simulator-interface" class="simulator-screen">
+            
+            <!-- BARRA SUPERIOR DE TIEMPO Y MÓDULO -->
+            <div class="fixed-header-sim">
+                <div class="module-info">
+                    <span id="timer-display" class="timer-display">00:00</span>
+                </div>
+                <div id="module-navigation" class="module-navigation">
+                    <!-- Tabs de Módulos (Llenados por JS) -->
+                </div>
+            </div>
+
+            <!-- CONTENIDO DE LA PREGUNTA -->
+            <div class="simulator-content-area">
+                <div id="question-content" class="question-container card">
+                    <!-- Pregunta y Opciones (Llenados por JS) -->
+                </div>
+
+                <!-- Botones de Navegación -->
+                <div id="question-buttons" class="question-buttons">
+                    <!-- Anterior / Terminar / Siguiente (Llenados por JS) -->
+                </div>
+            </div>
+
+            <!-- NAVEGACIÓN INFERIOR DE PREGUNTAS -->
+            <div class="fixed-footer-sim">
+                <p class="status-label">Progreso del Módulo:</p>
+                <div id="question-status" class="question-status">
+                    <!-- Botones de estado (Llenados por JS) -->
+                </div>
+            </div>
+        </div>
+
+
+        <!-- PANTALLA 4: RESULTADOS -->
+        <div id="results-screen" class="simulator-screen card">
+            <div id="results-content">
+                <!-- Contenido de Resultados (Llenado por JS) -->
+            </div>
+        </div>
+
+    </div>
+    
+    <!-- Menú de Navegación (Se ocultará con CSS en esta página) -->
+    <nav class="nav-bar">
+        <a href="dashboard.html" class="nav-link active">
+            <span class="material-icons">home</span>
+            Inicio
+        </a>
+        <a href="profile.html" class="nav-link">
+            <span class="material-icons">person</span>
+            Perfil
+        </a>
+    </nav>
+
+    <script src="script.js"></script> 
+</body>
+</html>
