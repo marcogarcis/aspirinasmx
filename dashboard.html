@@ -8,55 +8,95 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
-<body class="dashboard-page"> 
-    <div class="dashboard-wrapper">
-        
-        <div class="dashboard-container">
-            
-            <h1 class="section-title" style="margin-bottom: 30px;">Aspirante Soy MX</h1>
-
-            <div id="welcome-message" class="welcome-banner">
-                </div>
-
-            <p class="slogan-text">
-                "La disciplina de hoy es el éxito de mañana."
-            </p>
-
-            <div class="cards-grid">
-                
-                <a href="convocatorias.html" class="card">
-                    <span class="material-icons card-icon">description</span>
-                    <h3 class="card-title">Convocatorias</h3>
-                    <p class="card-description">Mantente al día con las fechas y requisitos oficiales de SEDENA y SEMAR.</p>
-                </a>
-                
-                <a href="simulador.html" class="card">
-                    <span class="material-icons card-icon">list_alt</span>
-                    <h3 class="card-title">Simulador (Temarios)</h3>
-                    <p class="card-description">Pon a prueba tus conocimientos con nuestro mini-examen de admisión.</p>
-                </a>
-
-                <a href="herramientas.html" class="card">
-                    <span class="material-icons card-icon">build_circle</span>
-                    <h3 class="card-title">Herramientas</h3>
-                    <p class="card-description">Calculadoras, simuladores y utilidades clave para tu preparación física y académica.</p>
-                </a>
-            </div>
-
-        </div>
-    </div>
-    
-    <nav class="nav-bar">
-        <a href="dashboard.html" class="nav-link active">
-            <span class="material-icons">home</span>
-            Inicio
-        </a>
-        <a href="profile.html" class="nav-link">
-            <span class="material-icons">person</span>
-            Perfil
-        </a>
+<body onload="navigateToHome()">
+    <nav class="sidebar">
+        <h1 class="logo-text">Aspirante Soy MX</h1>
+        <ul class="nav-links">
+            <li><a href="dashboard.html" class="active"><i class="material-icons">dashboard</i> Dashboard</a></li>
+            <li><a href="simulador.html"><i class="material-icons">quiz</i> Simulador EXANI-II</a></li>
+            <li><a href="convocatorias.html"><i class="material-icons">event</i> Convocatorias</a></li>
+            <li><a href="herramientas.html"><i class="material-icons">build</i> Herramientas</a></li>
+            <li><a href="profile.html"><i class="material-icons">person</i> Mi Perfil</a></li>
+        </ul>
+        <button id="logout-btn-nav" class="btn-logout"><i class="material-icons">exit_to_app</i> Cerrar Sesión</button>
     </nav>
 
+    <div class="content">
+        <header class="header">
+            <h2 id="welcome-message">¡Bienvenido(a)!</h2>
+        </header>
+
+        <main class="dashboard-grid">
+            
+            <section class="card quick-access">
+                <h3>Acceso Rápido</h3>
+                <div class="quick-links">
+                    <a href="simulador.html" class="link-card simulador">
+                        <i class="material-icons">timer</i> Iniciar Simulador
+                    </a>
+                    <a href="herramientas.html" class="link-card herramientas">
+                        <i class="material-icons">calculate</i> Calcular IMC
+                    </a>
+                    <a href="convocatorias.html" class="link-card convocatorias">
+                        <i class="material-icons">calendar_today</i> Próximas Fechas
+                    </a>
+                </div>
+            </section>
+
+            <section class="card stats-summary">
+                <h3>Resumen de Progreso</h3>
+                <div id="stats-content" class="stats-content">
+                    <div class="stat-item">
+                        <i class="material-icons ideal">done_all</i>
+                        <span class="stat-value" id="total-aciertos">0</span>
+                        <span class="stat-label">Aciertos Totales</span>
+                    </div>
+                    <div class="stat-item">
+                        <i class="material-icons high">military_tech</i>
+                        <span class="stat-value" id="mejor-porcentaje">0%</span>
+                        <span class="stat-label">Mejor Porcentaje</span>
+                    </div>
+                    <div class="stat-item">
+                        <i class="material-icons low">history</i>
+                        <span class="stat-value" id="total-intentos">0</span>
+                        <span class="stat-label">Simuladores Realizados</span>
+                    </div>
+                </div>
+                <p class="data-hint">Estadísticas basadas en tu historial en el Simulador EXANI-II.</p>
+            </section>
+
+            <section class="card announcements">
+                <h3>📢 Avisos Importantes</h3>
+                <ul class="announcement-list">
+                    <li><i class="material-icons">star</i> **NUEVO:** Simulador actualizado con preguntas de Historia y Geografía.</li>
+                    <li><i class="material-icons">access_time</i> Próxima convocatoria SEMAR (Nivel Licenciatura) inicia en **Enero 2026**.</li>
+                    <li><i class="material-icons">rule</i> Recuerda que el índice de masa corporal (IMC) debe estar entre 18.5 y 27.9.</li>
+                </ul>
+            </section>
+            
+            <section class="card history-chart">
+                <h3>Historial de Intentos</h3>
+                <div id="history-list" class="history-list">
+                    <p class="history-placeholder">Realiza tu primer simulador para ver tu historial aquí.</p>
+                </div>
+            </section>
+
+        </main>
+    </div>
+    
     <script src="script.js"></script>
+    <script>
+        // Lógica del Dashboard que llama a las funciones de script.js
+        document.addEventListener('DOMContentLoaded', () => {
+            if (window.renderDashboardStats) {
+                window.renderDashboardStats();
+            }
+            // Agrega el evento de cerrar sesión al botón de la barra lateral
+            const logoutNavBtn = document.getElementById('logout-btn-nav');
+            if (logoutNavBtn && window.logout) {
+                logoutNavBtn.addEventListener('click', window.logout);
+            }
+        });
+    </script>
 </body>
 </html>
