@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ----------------------------------------------------
-    // Funciones Comunes y Auxiliares 
+    // Funciones Comunes y Auxiliares (DEFINITIVAS)
     // ----------------------------------------------------
 
     function checkLoginStatus() { return localStorage.getItem('aspiranteSoyMX_sesion_activa') !== null; }
@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function getUsuarios() { const usuariosJSON = localStorage.getItem('aspiranteSoyMX_usuarios'); return usuariosJSON ? JSON.parse(usuariosJSON) : []; }
     function formatBold(text) { return text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>'); }
 
-    // Función global de navegación y seguridad (NAVEGACIÓN CORREGIDA)
+    // Función global de navegación y seguridad 
     window.navigateToHome = function() {
         const isLoggedIn = checkLoginStatus();
         const currentPage = window.location.pathname.split("/").pop(); 
@@ -395,4 +395,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const durationMin = Math.floor(durationSeg / 60);
         const durationSec = durationSeg % 60;
-        const durationFormatted = `${durationMin < 10 ? '0' : ''}${durationMin}:${durationSec < 10 ? '0' : ''}${durati
+        const durationFormatted = `${durationMin < 10 ? '0' : ''}${durationMin}:${durationSec < 10 ? '0' : ''}${durationSec}`;
