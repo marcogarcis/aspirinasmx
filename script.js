@@ -1,6 +1,3 @@
-Este código contiene la lógica de datos, la función `togglePasswordVisibility` y la corrección clave en `updateCareerDropdown` que habilita el selector de carrera.
-
-```javascript:Script de Funcionalidades:script.js
 // --- CONFIGURACIÓN DE DATOS ---
 const ESTADOS_MX = [
     "Aguascalientes", "Baja California", "Baja California Sur", "Campeche", "Chiapas",
@@ -74,29 +71,43 @@ function login() {
  * Función para simular el registro de un nuevo usuario.
  */
 function registerUser() {
-    // 1. Obtener valores de los nuevos campos de Nombre/Apellido
+    // 1. Obtener valores
     const nombre = document.getElementById('register-nombre').value;
     const apellidos = document.getElementById('register-apellidos').value;
     const email = document.getElementById('register-email').value;
     const password = document.getElementById('register-password').value;
     const confirmPassword = document.getElementById('register-confirm-password').value;
     const estado = document.getElementById('register-estado').value;
-    const institucion = document.getElementById('register-institucion').value;
-    const carrera = document.getElementById('register-carrera').value;
+    const institucionSelect = document.getElementById('register-institucion');
     const errorMessage = document.getElementById('register-error');
 
-    // 2. Validaciones básicas
+    // 2. Obtener instituciones seleccionadas (ahora es múltiple)
+    const selectedInstituciones = Array.from(institucionSelect.selectedOptions).map(option => option.value);
+
+    // 3. Obtener carreras seleccionadas (de los campos inyectados dinámicamente)
+    let selectedCarreras = [];
+    selectedInstituciones.forEach(inst => {
+        const selectElement = document.getElementById(`register-carrera-${inst}`);
+        if (selectElement && selectElement.value) {
+            selectedCarreras.push({
+                institucion: inst,
+                carrera: selectElement.value
+            });
+        }
+    });
+
+    // 4. Validaciones
     if (password !== confirmPassword) {
         errorMessage.textContent = 'Las contraseñas no coinciden.';
         return;
     }
 
-    if (!nombre || !apellidos || !email || !password || !estado || !institucion || !carrera) {
-        errorMessage.textContent = 'Por favor, completa todos los campos.';
+    if (!nombre || !apellidos || !email || !password || !estado || selectedInstituciones.length === 0 || selectedCarreras.length === 0) {
+        errorMessage.textContent = 'Por favor, completa todos los campos y selecciona al menos una carrera.';
         return;
     }
 
-    // 3. Simulación de almacenamiento
+    // 5. Simulación de almacenamiento
     const users = JSON.parse(localStorage.getItem('users')) || [];
     
     if (users.some(u => u.email === email)) {
@@ -110,47 +121,48 @@ function registerUser() {
         email: email,
         password: password,
         estado: estado,
-        institucion: institucion,
-        carrera: carrera,
+        institucion: selectedInstituciones, // Guardamos todas las instituciones seleccionadas
+        carrera: selectedCarreras,        // Guardamos las carreras seleccionadas con su institución
         registrationDate: new Date().toISOString(),
-        progress: 0, // Nuevo usuario inicia con 0 progreso
-        attempts: [] // Array para historial de intentos
+        progress: 0, 
+        attempts: []
     };
 
     users.push(newUser);
     localStorage.setItem('users', JSON.stringify(users));
     
-    // Simulación de éxito, redirigir al login (usamos console.log en lugar de alert)
     console.log('Registro exitoso. Redirigiendo para iniciar sesión.');
     window.location.href = 'index.html';
 }
 
 /**
- * Redirige al dashboard o al login dependiendo del estado.
+ * Redirige al dashboard.
  */
 function navigateToHome() {
     window.location.href = 'dashboard.html';
 }
 
 /**
- * Función para alternar la visibilidad de un campo de contraseña.
+ * CORREGIDA: Función para alternar la visibilidad de un campo de contraseña.
+ * Ahora recibe el ID del ícono para actualizarlo.
  * @param {string} inputId ID del campo de input (e.g., 'register-password')
+ * @param {string} iconId ID del span del icono (e.g., 'toggle-icon-register-password')
  */
-function togglePasswordVisibility(inputId) {
+function togglePasswordVisibility(inputId, iconId) {
     const input = document.getElementById(inputId);
-    const icon = document.getElementById(`toggle-icon-${inputId}`);
+    const icon = document.getElementById(iconId);
 
     if (input.type === 'password') {
         input.type = 'text';
-        icon.textContent = 'visibility';
+        icon.textContent = 'visibility'; // Cambia a ojo abierto
     } else {
         input.type = 'password';
-        icon.textContent = 'visibility_off';
+        icon.textContent = 'visibility_off'; // Cambia a ojo cerrado
     }
 }
 
 /**
- * Carga las opciones de estados y carreras al cargar la página de registro.
+ * Carga las opciones de estados y añade el listener al select de instituciones.
  */
 function loadRegistrationData() {
     const estadoSelect = document.getElementById('register-estado');
@@ -167,46 +179,64 @@ function loadRegistrationData() {
     }
 
     if (institucionSelect) {
-        // Escucha el cambio en la institución para cargar carreras
+        // Escucha el cambio en la institución para cargar carreras de forma dinámica
         institucionSelect.addEventListener('change', updateCareerDropdown);
-        // Llama una vez para inicializar o en caso de edición
+        // Llama una vez para asegurar que esté limpio al inicio
         updateCareerDropdown();
     }
 }
 
 /**
- * Actualiza el dropdown de carreras basado en la institución seleccionada y lo habilita.
+ * REESCRITA: Actualiza el contenedor de selección de carreras basado en las instituciones seleccionadas.
  */
 function updateCareerDropdown() {
-    const institucion = document.getElementById('register-institucion').value;
-    const carreraSelect = document.getElementById('register-carrera');
+    const institucionSelect = document.getElementById('register-institucion');
+    const container = document.getElementById('career-selection-container');
     
-    // Limpiar opciones previas
-    carreraSelect.innerHTML = '<option value="" disabled selected>Selecciona tu carrera de interés</option>';
+    // Obtener un array de las instituciones seleccionadas
+    const selectedInstitutions = Array.from(institucionSelect.selectedOptions).map(option => option.value);
 
-    const carrerasLista = CARRERAS_INSTITUCION[institucion];
+    // Limpiar el contenedor dinámico
+    container.innerHTML = ''; 
 
-    if (carrerasLista && institucion !== "") { 
-        carrerasLista.forEach(carrera => {
-            const option = document.createElement('option');
-            option.value = carrera;
-            option.textContent = carrera;
-            carreraSelect.appendChild(option);
-        });
-        // HABILITAR EL DROPDOWN
-        carreraSelect.removeAttribute('disabled');
-        carreraSelect.classList.remove('bg-gray-100'); // Quita el estilo de "deshabilitado"
-        carreraSelect.classList.add('bg-white'); // Añade el estilo de "habilitado"
-    } else {
-        // DESHABILITAR si no hay una institución seleccionada
-        carreraSelect.setAttribute('disabled', 'true');
-        carreraSelect.classList.add('bg-gray-100'); // Añade el estilo de "deshabilitado"
-        carreraSelect.classList.remove('bg-white');
+    // Si no hay instituciones seleccionadas, no hacemos nada más
+    if (selectedInstitutions.length === 0) {
+        return;
     }
+
+    // Recorrer las instituciones seleccionadas e inyectar el HTML de cada select
+    selectedInstitutions.forEach(inst => {
+        const instName = inst === 'SEDENA' ? 'SEDENA (Ejército)' : 'SEMAR (Marina)';
+        const selectId = `register-carrera-${inst}`;
+        const carrerasLista = CARRERAS_INSTITUCION[inst];
+
+        let selectHtml = `
+            <div class="career-select-group">
+                <label for="${selectId}" class="block text-sm font-medium text-gray-700 mb-1">
+                    Carrera de Interés en ${instName}
+                </label>
+                <select id="${selectId}" required 
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white focus:ring-blue-500 focus:border-blue-500 transition duration-150">
+                    <option value="" disabled selected>Selecciona una carrera de ${inst}</option>
+        `;
+        
+        // Agregar opciones
+        carrerasLista.forEach(carrera => {
+            selectHtml += `<option value="${carrera}">${carrera}</option>`;
+        });
+
+        selectHtml += `
+                </select>
+            </div>
+        `;
+
+        // Inyectar el grupo de select en el contenedor
+        container.innerHTML += selectHtml;
+    });
 }
 
 /**
- * Verifica el estado de autenticación al cargar una página protegida.
+ * Verifica el estado de autenticación al cargar una página.
  */
 function checkLoginStatus() {
     const isAuthenticated = localStorage.getItem('isAuthenticated');
@@ -231,6 +261,7 @@ function checkLoginStatus() {
 
 /**
  * Carga los datos del usuario actual en el Dashboard.
+ * NOTA: Esta función necesitará ser ajustada en el futuro para manejar el nuevo formato de carreras (array)
  */
 function loadDashboardData() {
     const userEmail = localStorage.getItem('currentUserEmail');
@@ -244,18 +275,22 @@ function loadDashboardData() {
         
         // Cargar datos de perfil en el dashboard para mostrar el resumen
         document.getElementById('summary-nombre').textContent = `${user.nombre} ${user.apellidos}`;
-        document.getElementById('summary-institucion').textContent = user.institucion === 'SEDENA' ? 'Ejército (SEDENA)' : 'Marina (SEMAR)';
-        document.getElementById('summary-carrera').textContent = user.carrera;
+        
+        // Muestra las instituciones y carreras seleccionadas (simplificado para el dashboard inicial)
+        const instText = user.institucion.map(i => i === 'SEDENA' ? 'Ejército (SEDENA)' : 'Marina (SEMAR)').join(' y ');
+        document.getElementById('summary-institucion').textContent = instText;
+        
+        const carrerasText = user.carrera.map(c => `${c.carrera} (${c.institucion})`).join(' / ');
+        document.getElementById('summary-carrera').textContent = carrerasText;
+        
         document.getElementById('summary-estado').textContent = user.estado;
 
-        // Mostrar u ocultar el Resumen del Progreso si es 0 (opcional, aquí siempre se muestra)
         const progressCard = document.getElementById('progress-summary-card');
         if (progressCard) {
              progressCard.classList.remove('hidden'); 
         }
 
     } else {
-        // Si el usuario no se encuentra, desautenticar y redirigir
         localStorage.removeItem('isAuthenticated');
         localStorage.removeItem('currentUserEmail');
         window.location.href = 'index.html';
