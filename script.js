@@ -1,3 +1,6 @@
+Este código contiene la lógica de datos, la función `togglePasswordVisibility` y la corrección clave en `updateCareerDropdown` que habilita el selector de carrera.
+
+```javascript:Script de Funcionalidades:script.js
 // --- CONFIGURACIÓN DE DATOS ---
 const ESTADOS_MX = [
     "Aguascalientes", "Baja California", "Baja California Sur", "Campeche", "Chiapas",
@@ -117,8 +120,8 @@ function registerUser() {
     users.push(newUser);
     localStorage.setItem('users', JSON.stringify(users));
     
-    // Simulación de éxito, redirigir al login
-    alert('Registro exitoso. Serás redirigido para iniciar sesión.');
+    // Simulación de éxito, redirigir al login (usamos console.log en lugar de alert)
+    console.log('Registro exitoso. Redirigiendo para iniciar sesión.');
     window.location.href = 'index.html';
 }
 
@@ -127,6 +130,23 @@ function registerUser() {
  */
 function navigateToHome() {
     window.location.href = 'dashboard.html';
+}
+
+/**
+ * Función para alternar la visibilidad de un campo de contraseña.
+ * @param {string} inputId ID del campo de input (e.g., 'register-password')
+ */
+function togglePasswordVisibility(inputId) {
+    const input = document.getElementById(inputId);
+    const icon = document.getElementById(`toggle-icon-${inputId}`);
+
+    if (input.type === 'password') {
+        input.type = 'text';
+        icon.textContent = 'visibility';
+    } else {
+        input.type = 'password';
+        icon.textContent = 'visibility_off';
+    }
 }
 
 /**
@@ -155,7 +175,7 @@ function loadRegistrationData() {
 }
 
 /**
- * Actualiza el dropdown de carreras basado en la institución seleccionada.
+ * Actualiza el dropdown de carreras basado en la institución seleccionada y lo habilita.
  */
 function updateCareerDropdown() {
     const institucion = document.getElementById('register-institucion').value;
@@ -166,13 +186,22 @@ function updateCareerDropdown() {
 
     const carrerasLista = CARRERAS_INSTITUCION[institucion];
 
-    if (carrerasLista) {
+    if (carrerasLista && institucion !== "") { 
         carrerasLista.forEach(carrera => {
             const option = document.createElement('option');
             option.value = carrera;
             option.textContent = carrera;
             carreraSelect.appendChild(option);
         });
+        // HABILITAR EL DROPDOWN
+        carreraSelect.removeAttribute('disabled');
+        carreraSelect.classList.remove('bg-gray-100'); // Quita el estilo de "deshabilitado"
+        carreraSelect.classList.add('bg-white'); // Añade el estilo de "habilitado"
+    } else {
+        // DESHABILITAR si no hay una institución seleccionada
+        carreraSelect.setAttribute('disabled', 'true');
+        carreraSelect.classList.add('bg-gray-100'); // Añade el estilo de "deshabilitado"
+        carreraSelect.classList.remove('bg-white');
     }
 }
 
